@@ -1,3 +1,5 @@
+require './lib/board.rb'
+
 describe Board do
   describe '#make_board' do
     it "outpus an 8x8 2-d array" do

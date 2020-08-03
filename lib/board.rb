@@ -1,4 +1,6 @@
 class Board
+  attr_accessor :grid
+  
   def initialize
     @rows = 8
     @columns = 8
