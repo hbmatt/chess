@@ -1,4 +1,8 @@
 class Piece
+  def initialize(color)
+    @color = color
+  end
+
   def find_legal_moves
     legal_moves = []
 
