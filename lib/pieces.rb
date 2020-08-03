@@ -47,12 +47,17 @@ class Pawn < Piece
 
   def initialize(position = nil, moved = false)
     @position = position
-    @moves = [[0, 2], [0, 1]]
+    if @color == 'white'
+      @moves = [[0, 2], [0, 1]]
+    else
+      @moves = [[0, -2], [0, -1]]
+    end
     @moved = moved
     @legal_moves = find_legal_moves
   end
 
   def find_legal_moves
     @moves.shift if @moved == true
+    super
   end
 end
