@@ -1,6 +1,10 @@
 class Piece
-  def initialize(color)
+  attr_accessor :position, :legal_moves
+
+  def initialize(color, position = nil)
     @color = color
+    @position = position
+    @legal_moves = find_legal_moves
   end
 
   def find_legal_moves
@@ -17,84 +21,87 @@ class Piece
 end
 
 class King < Piece
-  attr_accessor :position, :legal_moves
-
-  def initialize(position = nil)
-    @position = position
+  def initialize
     @moves = [
       [0, 1], [1, 1], [1, 0], [1, -1],
       [0, -1], [-1, -1], [-1, 0], [-1, 1]
     ]
-    @legal_moves = find_legal_moves
+  end
+
+  def show_symbol
+    @color == 'white' ? "\u2654" : "\u265A"
+  end
+end
+
+class Queen < Piece
+  def initialize
+    @moves = [
+      [1, 0], [-1, 0], [0, 1], [0, -1],
+      [1, 1], [-1, 1], [-1, -1], [1, -1]
+    ]
+  end
+
+  def show_symbol
+    @color == 'white' ? "\u2655" : "\u265B"
+  end
+end
+
+class Rook < Piece
+  def initialize
+    @moves = [
+      [1, 0], [-1, 0], [0, 1], [0, -1]
+    ]
+  end
+
+  def show_symbol
+    @color == 'white' ? "\u2656" : "\u265C"
+  end
+end
+
+class Bishop < Piece
+  def initialize
+    @moves = [
+      [1, 1], [-1, 1], [-1, -1], [1, -1]
+    ]
+  end
+
+  def show_symbol
+    @color == 'white' ? "\u2657" : "\u265D"
   end
 end
 
 class Knight < Piece
-  attr_accessor :position, :legal_moves
-
-  def initialize(position = nil)
-    @position = position
+  def initialize
     @moves = [
       [1, 2], [-1, 2], [-1, -2], [1, -2],
       [2, 1], [-2, 1], [-2, -1], [2, -1]
     ]
-    @legal_moves = find_legal_moves
+  end
+
+  def show_symbol
+    @color == 'white' ? "\u2658" : "\u265E"
   end
 end
 
 class Pawn < Piece
-  attr_accessor :position, :legal_moves
+  attr_accessor :moved
 
-  def initialize(position = nil, moved = false)
-    @position = position
+  def initialize(moved = false)
     @moves = if @color == 'white'
                [[0, 2], [0, 1]]
              else
                [[0, -2], [0, -1]]
              end
     @moved = moved
-    @legal_moves = find_legal_moves
   end
 
   def find_legal_moves
     @moves.shift if @moved == true
     super
   end
-end
 
-class Rook < Piece
-  attr_accessor :position, :legal_moves
-
-  def initialize(position = nil)
-    @position = position
-    @moves = [
-      [1, 0], [-1, 0], [0, 1], [0, -1]
-    ]
-    @legal_moves = find_legal_moves
+  def show_symbol
+    @color == 'white' ? "\u2659" : "\u265F"
   end
 end
 
-class Bishop < Piece
-  attr_accessor :position, :legal_moves
-
-  def initialize(position = nil)
-    @position = position
-    @moves = [
-      [1, 1], [-1, 1], [-1, -1], [1, -1]
-    ]
-    @legal_moves = find_legal_moves
-  end
-end
-
-class Queen < Piece
-  attr_accessor :position, :legal_moves
-
-  def initialize(position = nil)
-    @position = position
-    @moves = [
-      [1, 0], [-1, 0], [0, 1], [0, -1],
-      [1, 1], [-1, 1], [-1, -1], [1, -1]
-    ]
-    @legal_moves = find_legal_moves
-  end
-end
