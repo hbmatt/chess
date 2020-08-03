@@ -37,3 +37,18 @@ class Knight < Piece
     @legal_moves = find_legal_moves
   end
 end
+
+class Pawn < Piece
+  attr_accessor :position, :legal_moves
+
+  def initialize(position = nil, moved = false)
+    @position = position
+    @moves = [[0, 2], [0, 1]]
+    @moved = moved
+    @legal_moves = find_legal_moves
+  end
+
+  def find_legal_moves
+    @moves.shift if @moved == true
+  end
+end
