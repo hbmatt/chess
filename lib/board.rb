@@ -1,6 +1,6 @@
 class Board
   attr_accessor :grid
-  
+
   def initialize
     @rows = 8
     @columns = 8
@@ -21,5 +21,42 @@ class Board
     end
 
     grid
+  end
+
+  def display_board
+    display = '+-------'
+    6.times do
+      display += '--------'
+    end
+    display += "--------+\n"
+
+    7.times do
+      3.times do
+        8.times do
+          display += '|       '
+        end
+        display += "|\n"
+      end
+
+      8.times do
+        display += '+-------'
+      end
+      display += "+\n"
+    end
+
+    3.times do
+      8.times do
+        display += '|       '
+      end
+      display += "|\n"
+    end
+
+    display += '+-------'
+    6.times do
+      display += '--------'
+    end
+    display += "--------+\n"
+  
+    puts "\n\n" + display
   end
 end
