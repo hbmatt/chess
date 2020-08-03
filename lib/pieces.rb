@@ -73,3 +73,15 @@ class Rook < Piece
     @legal_moves = find_legal_moves
   end
 end
+
+class Bishop < Piece
+  attr_accessor :position, :legal_moves
+
+  def initialize(position = nil)
+    @position = position
+    @moves = [
+      [1, 1], [-1, 1], [-1, -1], [1, -1]
+    ]
+    @legal_moves = find_legal_moves
+  end
+end
