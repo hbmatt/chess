@@ -47,11 +47,11 @@ class Pawn < Piece
 
   def initialize(position = nil, moved = false)
     @position = position
-    if @color == 'white'
-      @moves = [[0, 2], [0, 1]]
-    else
-      @moves = [[0, -2], [0, -1]]
-    end
+    @moves = if @color == 'white'
+               [[0, 2], [0, 1]]
+             else
+               [[0, -2], [0, -1]]
+             end
     @moved = moved
     @legal_moves = find_legal_moves
   end
@@ -68,7 +68,7 @@ class Rook < Piece
   def initialize(position = nil)
     @position = position
     @moves = [
-      [1,0],[-1,0],[0,1],[0,-1]
+      [1, 0], [-1, 0], [0, 1], [0, -1]
     ]
     @legal_moves = find_legal_moves
   end
