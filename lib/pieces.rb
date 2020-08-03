@@ -61,3 +61,15 @@ class Pawn < Piece
     super
   end
 end
+
+class Rook < Piece
+  attr_accessor :position, :legal_moves
+
+  def initialize(position = nil)
+    @position = position
+    @moves = [
+      [1,0],[-1,0],[0,1],[0,-1]
+    ]
+    @legal_moves = find_legal_moves
+  end
+end
