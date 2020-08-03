@@ -8,12 +8,12 @@ class Game
   def place_white_pieces(grid)
     i = 0
     until i > 7
-      grid[1][i] = Pawn.new('white',[1,i])
+      grid[1][i] = Pawn.new('white',[1,i]).show_symbol
       i += 1
     end
 
-    grid[0][0] = Rook.new('white',[2,0])
-    grid[0][7] = Rook.new('white',[2,0])
+    grid[0][0] = Rook.new('white',[0,0])
+    grid[0][7] = Rook.new('white',[0,7])
 
     grid[0][1] = Knight.new('white',[0,1])
     grid[0][6] = Knight.new('white',[0,6])
@@ -32,8 +32,8 @@ class Game
       i += 1
     end
 
-    grid[7][0] = Rook.new('black',[2,0])
-    grid[7][7] = Rook.new('black',[2,7])
+    grid[7][0] = Rook.new('black',[7,0])
+    grid[7][7] = Rook.new('black',[7,7])
 
     grid[7][1] = Knight.new('black',[7,1])
     grid[7][6] = Knight.new('black',[7,6])
