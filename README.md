@@ -1,0 +1,1 @@
+A command-line chess program written in Ruby. Or, at least, that's what it'll end up being.
