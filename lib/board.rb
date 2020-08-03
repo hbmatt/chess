@@ -14,7 +14,7 @@ class Board
       i = 0
       row = []
       until i > @columns - 1
-        row << i
+        row << ' '
         i += 1
       end
       grid << row
@@ -24,39 +24,44 @@ class Board
   end
 
   def display_board
-    display = '+-------'
-    6.times do
-      display += '--------'
-    end
-    display += "--------+\n"
+    display = separator
 
-    7.times do
-      3.times do
-        8.times do
-          display += '|       '
-        end
-        display += "|\n"
+    n = 8
+
+    @grid.reverse.each do |row|
+      display += cell_padding
+
+      display += " #{n} |"
+      i = 0
+      while i < 8
+        display += "   #{row[i]}   |"
+        i += 1
       end
+      display += "\n"
 
-      8.times do
-        display += '+-------'
-      end
-      display += "+\n"
+      display += cell_padding
+      display += separator
+      n -= 1
     end
 
-    3.times do
-      8.times do
-        display += '|       '
-      end
-      display += "|\n"
-    end
+    display += '       A       B       C       D       E       F       G       H    '
 
-    display += '+-------'
-    6.times do
-      display += '--------'
-    end
-    display += "--------+\n"
-  
     puts "\n\n" + display
+  end
+
+  def separator
+    display = '   '
+    8.times do
+      display += '+-------'
+    end
+    display += "+\n"
+  end
+
+  def cell_padding
+    display = ''
+    8.times do
+      display += '   |    '
+    end
+    display += "   |\n"
   end
 end
