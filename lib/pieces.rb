@@ -27,7 +27,8 @@ class Piece
 
   def open_square?(row, column, grid)
     return true if grid[row][column] == ' '
-    grid[row][column].color == @color ? false : true
+
+    grid[row][column].color != @color
   end
 end
 
@@ -58,7 +59,7 @@ class Queen < Piece
       until i > 7
         row = move[0] * i
         column = move[1] * i
-        full_moves << [row,column]
+        full_moves << [row, column]
         i += 1
       end
       full_moves
@@ -85,7 +86,7 @@ class Rook < Piece
       until i > 7
         row = move[0] * i
         column = move[1] * i
-        full_moves << [row,column]
+        full_moves << [row, column]
         i += 1
       end
       full_moves
@@ -112,7 +113,7 @@ class Bishop < Piece
       until i > 7
         row = move[0] * i
         column = move[1] * i
-        full_moves << [row,column]
+        full_moves << [row, column]
         i += 1
       end
       full_moves
@@ -141,9 +142,30 @@ end
 
 class Pawn < Piece
   def get_moves
-    moves = @color == 'white' ? [[2,0], [1,0]] : [[-2,0], [-1,0]]
+    moves = @color == 'white' ? [[2, 0], [1, 0], [1, 1], [1, -1]] : [[-2, 0], [-1, 0], [-1, 1], [-1, -1]]
     @moved == true ? moves.shift : moves
     moves
+  end
+
+  def enemy_square?(row, column, grid)
+    return false if grid[row][column] == ' '
+
+    grid[row][column].color != @color
+  end
+
+  def find_legal_moves(grid)
+    moves = get_moves
+    legal_moves = []
+
+    moves.each do |move|
+      row = @position[0] + move[0]
+      column = @position[1] + move [1]
+      if on_board?(row, column) && enemy_square?(row, column, grid) || on_board?(row, column) && open_square?(row, column, grid)
+        legal_moves << [row, column]
+      end
+    end
+
+    legal_moves
   end
 
   def to_s
