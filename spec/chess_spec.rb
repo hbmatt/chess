@@ -15,11 +15,12 @@ end
 describe Game do
   game = Game.new
   board = game.board
-  game.place_white_pieces(board.grid)
-  piece = board.grid[1][7]
-  game.move_piece(piece,[3,7],board.grid)
 
   describe '#move_piece' do
+    game.place_white_pieces(board.grid)
+    piece = board.grid[1][7]
+    game.move_piece(piece,[3,7],board.grid)
+
     it "erases the chosen piece's old position" do
       expect(board.grid[1][7]).to eq(' ')
     end
