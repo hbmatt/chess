@@ -20,7 +20,7 @@ class Game
     place_white_pieces(@board.grid)
     place_black_pieces(@board.grid)
 
-    until @move_counter == 5
+    until game_over?
       @board.display_board
       player = choose_player_turn
       make_move(player)
@@ -29,7 +29,12 @@ class Game
       @move_counter += 1
     end
 
-    exit
+    end_game
+  end
+
+  def game_over?
+    # in_check? and no legal moves out of check
+    # checkmate? true. opposing player wins
   end
 
   def clear_screen
@@ -150,5 +155,35 @@ class Game
     taken_piece.position = nil
 
     player.graveyard << taken_piece
+  end
+
+  def promote_pawn(piece)
+    return if piece.class != Pawn
+
+    if piece.color == 'white' && piece.position[0] == 7 || piece.color == 'black' && piece.position[0] == 0
+      puts "Your pawn made it across the board!"
+      puts "What would you like to promote it to?"
+      puts "1. Queen, 2. Rook, 3. Bishop, 4. Knight"
+      promotion = gets.chomp
+      
+      until /^[1-4]/.match?(promotion)
+        puts "Please enter a number between 1 - 4:"
+        promotion = gets.chomp
+      end
+
+      color = piece.color
+      position = piece.position
+      cell = @board.grid[position[0]][position[1]]
+
+      if promotion == '1'
+        cell = Queen.new(color, position)
+      elsif promotion == '2'
+        cell = Rook.new(color, position)
+      elsif promotion == '3'
+        cell = Bishop.new(color, position)
+      elsif promotion == '4'
+        cell = Knight.new(color, position)
+      end
+    end
   end
 end
