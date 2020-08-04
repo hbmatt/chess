@@ -12,7 +12,7 @@ class Piece
     moves = get_moves
     legal_moves = []
 
-    @moves.each do |move|
+    moves.each do |move|
       row = @position[0] + move[0]
       column = @position[1] + move [1]
       legal_moves << [row, column] if on_board?(row, column) && open_square?(row, column, grid)

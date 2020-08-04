@@ -90,11 +90,13 @@ class Game
     legal_moves = []
 
     while legal_moves == []
+      piece = player.choose_piece
       piece = player.choose_piece until piece_legal?(player, piece)
       piece = find_piece(piece)
       legal_moves = piece.find_legal_moves(@board.grid)
     end
 
+    move = player.move_piece
     move = player.move_piece until move_legal?(move, legal_moves)
 
     move_piece(piece, move, @board.grid)
@@ -122,6 +124,7 @@ class Game
 
   def piece_legal?(player, piece)
     piece = find_piece(piece)
+    return false if piece == ' '
     piece.color == player.color
   end
 

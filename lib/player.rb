@@ -7,14 +7,20 @@ class Player
   end
 
   def choose_piece
-    puts "#{@name}, select your piece:"
-    piece = gets.chomp.upcase
+    piece = ''
+    until /^[A-H][1-7]$/.match?(piece)
+      puts "#{@name}, select your piece:"
+      piece = gets.chomp.upcase
+    end
     piece = convert_input(piece)
   end
 
   def move_piece
-    puts 'Move your piece:'
-    move = gets.chomp.upcase
+    move = ''
+    until /^[A-H][1-7]$/.match?(move)
+      puts 'Move your piece:'
+      move = gets.chomp.upcase
+    end
     move = convert_input(move)
   end
 
