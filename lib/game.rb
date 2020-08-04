@@ -3,6 +3,45 @@ class Game
     @player1 = Player.new('Player 1', 'white')
     @player2 = Player.new('Player 2', 'black')
     @board = Board.new
+    @move_counter = 1
+  end
+
+  def start_game
+    get_players
+
+    place_white_pieces(@board.grid)
+    place_black_pieces(@board.grid)
+
+    until game_end?
+      @board.display_board
+      player = choose_player_turn
+      make_move(player)
+      clear_screen
+    end
+
+    end_game
+  end
+
+  def game_end?
+    # king of one team gets captured? true
+    # checkmate? true
+  end
+
+  def get_players
+    puts "\nPlayer 1, enter your name:"
+    @player1.name = gets.chomp
+    puts "\nPlayer 2, enter your name:"
+    @player2.name = gets.chomp
+  end
+
+  def choose_player_turn
+    if @move_counter.odd?
+      puts "\nPlayer 1's turn"
+      @player1
+    elsif @move_counter.even?
+      puts "\nPlayer 2's turn"
+      @player2
+    end
   end
 
   def place_white_pieces(grid)
