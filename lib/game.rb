@@ -1,3 +1,8 @@
+require './lib/board.rb'
+require './lib/game.rb'
+require './lib/player.rb'
+require './lib/pieces.rb'
+
 class Game
   attr_accessor :board
   
@@ -10,23 +15,25 @@ class Game
 
   def start_game
     get_players
+    clear_screen
 
     place_white_pieces(@board.grid)
     place_black_pieces(@board.grid)
 
-    until game_end?
+    until @move_counter == 5
       @board.display_board
       player = choose_player_turn
       make_move(player)
       clear_screen
+
+      @move_counter += 1
     end
 
-    end_game
+    exit
   end
 
-  def game_end?
-    # king of one team gets captured? true
-    # checkmate? true
+  def clear_screen
+    system('clear') || system('cls')
   end
 
   def get_players
@@ -69,7 +76,7 @@ class Game
   def place_black_pieces(grid)
     i = 0
     until i > 7
-      grid[6][i] = Pawn.new('black', [1, i])
+      grid[6][i] = Pawn.new('black', [6, i])
       i += 1
     end
 
@@ -99,10 +106,10 @@ class Game
     move = player.move_piece
     move = player.move_piece until move_legal?(move, legal_moves)
 
-    move_piece(piece, move, @board.grid)
+    move_piece(piece, move, @board.grid, player)
   end
 
-  def move_piece(piece, move, grid)
+  def move_piece(piece, move, grid, player)
     piece.moved = true if piece.moved == false
 
     old_position = piece.position
@@ -113,7 +120,13 @@ class Game
     piece.position = move
     row = move[0]
     column = move[1]
-    grid[row][column] = piece
+
+    if grid[row][column] != ' '
+      take_piece(row, column, player)
+      grid[row][column] = piece
+    else
+      grid[row][column] = piece
+    end
   end
 
   def find_piece(piece)
@@ -130,5 +143,12 @@ class Game
 
   def move_legal?(move, legal_moves)
     legal_moves.include?(move) ? true : false
+  end
+
+  def take_piece(row, column, player)
+    taken_piece = @board.grid[row][column]
+    taken_piece.position = nil
+
+    player.graveyard << taken_piece
   end
 end
