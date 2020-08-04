@@ -27,7 +27,7 @@ class Piece
 
   def open_square?(row, column, grid)
     return true if grid[row][column] == ' '
-    grid[row][column].color == @color false : true
+    grid[row][column].color == @color ? false : true
   end
 end
 
