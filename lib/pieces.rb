@@ -27,6 +27,7 @@ class Piece
   end
 
   def open_square?(row, column, grid)
+    return true if grid[row][column] == ' '
     grid[row][column].color == @color false : true
   end
 end
@@ -50,6 +51,21 @@ class Queen < Piece
       [1, 0], [-1, 0], [0, 1], [0, -1],
       [1, 1], [-1, 1], [-1, -1], [1, -1]
     ]
+
+    full_moves = []
+
+    moves.each do |move|
+      i = 1
+      until i > 7
+        row = move[0] * i
+        column = move[1] * i
+        full_moves << [row,column]
+        i += 1
+      end
+      full_moves
+    end
+
+    full_moves
   end
 
   def to_s
@@ -62,6 +78,21 @@ class Rook < Piece
     moves = [
       [1, 0], [-1, 0], [0, 1], [0, -1]
     ]
+
+    full_moves = []
+
+    moves.each do |move|
+      i = 1
+      until i > 7
+        row = move[0] * i
+        column = move[1] * i
+        full_moves << [row,column]
+        i += 1
+      end
+      full_moves
+    end
+
+    full_moves
   end
 
   def to_s
@@ -74,6 +105,21 @@ class Bishop < Piece
     moves = [
       [1, 1], [-1, 1], [-1, -1], [1, -1]
     ]
+
+    full_moves = []
+
+    moves.each do |move|
+      i = 1
+      until i > 7
+        row = move[0] * i
+        column = move[1] * i
+        full_moves << [row,column]
+        i += 1
+      end
+      full_moves
+    end
+
+    full_moves
   end
 
   def to_s
