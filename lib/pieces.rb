@@ -2,15 +2,14 @@ class Piece
   attr_accessor :position, :moved
   attr_reader :color
 
-  def initialize(color, position, moved = false)
+  def initialize(color, position)
     @color = color
     @position = position
-    @moved = moved
-    @moves = get_moves
+    @moved = false
   end
 
   def find_legal_moves(grid)
-    @moves = get_moves
+    moves = get_moves
     legal_moves = []
 
     @moves.each do |move|
