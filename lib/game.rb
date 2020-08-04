@@ -55,6 +55,19 @@ class Game
     end
 
     move = player.move_piece until move_legal?(move, legal_moves)
+
+    move_piece(piece, move, @board.grid)
+  end
+
+  def move_piece(piece, move, grid)
+    piece.moved = true if piece.moved == false
+
+    old_position = piece.position
+    row = old_position[0]
+    column = old_position[1]
+
+    grid[row][column] = ' '
+    piece.position = move
   end
 
   def find_piece(piece)
