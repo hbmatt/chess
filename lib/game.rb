@@ -47,23 +47,32 @@ class Game
 
   def make_move(player)
     piece = player.choose_piece until piece_legal?(player, piece)
+    piece = find_piece(piece)
 
-    move = player.move_piece until move_legal?(move)
+    legal_moves = piece.find_legal_moves(@board.grid)
+
+    while legal_moves == []
+      piece = player.choose_piece until piece_legal?(player, piece)
+      piece = @board.grid[row][column]
+    end
+
+    move = player.move_piece until move_legal?(move, legal_moves)
   end
 
-  def piece_legal?(player, piece)
+  def find_piece(piece)
     row = piece[0]
     column = piece[1]
     piece = @board.grid[row][column]
-
-    piece != ' ' && piece.color == player.color && not_surrounded?(row, column) ? true : false
   end
 
-  def not_surrounded?(row, column)
-
+  def piece_legal?(player, piece)
+    piece = find_piece(piece)
+    piece.color == player.color ? true : false
   end
 
-  def move_legal?(move)
+  def move_legal?(move, piece)
+    legal_moves = 
 
+    legal_moves.include?(move) ? true : false
   end
 end
