@@ -1,4 +1,6 @@
 class Game
+  attr_accessor :board
+  
   def initialize
     @player1 = Player.new('Player 1', 'white')
     @player2 = Player.new('Player 2', 'black')
@@ -104,9 +106,12 @@ class Game
     old_position = piece.position
     row = old_position[0]
     column = old_position[1]
-
     grid[row][column] = ' '
+
     piece.position = move
+    row = move[0]
+    column = move[1]
+    grid[row][column] = piece
   end
 
   def find_piece(piece)
