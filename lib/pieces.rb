@@ -15,9 +15,9 @@ class Piece
     @legal_moves = []
 
     @moves.each do |move|
-      x = @position[0] + move[0]
-      y = @position[1] + move [1]
-      @legal_moves << [x, y] if x >= 0 && y >= 0 && x <= 7 && y <= 7
+      row = @position[0] + move[0]
+      column = @position[1] + move [1]
+      @legal_moves << [row, column] if row >= 0 && column >= 0 && row <= 7 && column <= 7
     end
 
     @legal_moves
@@ -89,7 +89,7 @@ end
 
 class Pawn < Piece
   def get_moves
-    moves = @color == 'white' ? [[0, 2], [0, 1]] : [[0, -2], [0, -1]]
+    moves = @color == 'white' ? [[2,0], [1,0]] : [[-2,0], [-1,0]]
     @moved == true ? moves.shift : moves
     moves
   end
