@@ -1,6 +1,6 @@
 class Player
   attr_accessor :color, :name
-  
+
   def initialize(name, color)
     @name = name
     @color = color
@@ -32,6 +32,6 @@ class Player
 
     row = input[1].to_i - 1
 
-    input = [row,column[input[0]]]
+    input = [row, column[input[0]]]
   end
 end
