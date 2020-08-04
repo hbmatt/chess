@@ -1,9 +1,11 @@
 class Player
-  attr_accessor :color, :name
+  attr_accessor :name, :graveyard
+  attr_reader :color
 
   def initialize(name, color)
     @name = name
     @color = color
+    @graveyard = []
   end
 
   def choose_piece
