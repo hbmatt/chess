@@ -47,7 +47,7 @@ class Game
   def place_white_pieces(grid)
     i = 0
     until i > 7
-      grid[1][i] = Pawn.new('white', [1, i]).show_symbol
+      grid[1][i] = Pawn.new('white', [1, i])
       i += 1
     end
 
