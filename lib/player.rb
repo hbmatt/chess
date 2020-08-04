@@ -4,14 +4,28 @@ class Player
     @color = color
   end
 
-  def make_move
+  def choose_piece
     puts "#{@name}, select your piece:"
     piece = gets.chomp.upcase
     piece = convert_input(piece)
+    
+    until check_piece_legal?(piece)
+      puts 'Please select a valid piece:'
+      piece = gets.chomp.upcase
+      piece = convert_input(piece)
+    end
+  end
 
+  def move_piece
     puts 'Move your piece:'
     move = gets.chomp.upcase
     move = convert_input(move)
+
+    until check_move_legal?(move)
+      puts 'Please enter a legal move:'
+      move = gets.chomp.upcase
+      move = convert_input(move)
+    end
   end
 
   def convert_input(input)
@@ -26,6 +40,8 @@ class Player
       'H' => 7
     }
 
-    input = [column[input[0]], input[1].to_i - 1]
+    row = input[1].to_i - 1
+
+    input = [row,column[input[0]]]
   end
 end
