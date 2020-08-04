@@ -44,4 +44,26 @@ class Game
     grid[7][3] = Queen.new('black',[7,3])
     grid[7][4] = King.new('black',[7,4])
   end
+
+  def make_move(player)
+    piece = player.choose_piece until piece_legal?(player, piece)
+
+    move = player.move_piece until move_legal?(move)
+  end
+
+  def piece_legal?(player, piece)
+    row = piece[0]
+    column = piece[1]
+    piece = @board.grid[row][column]
+
+    piece != ' ' && piece.color == player.color && not_surrounded?(row, column) ? true : false
+  end
+
+  def not_surrounded?(row, column)
+
+  end
+
+  def move_legal?(move)
+
+  end
 end
