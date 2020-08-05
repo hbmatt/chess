@@ -16,6 +16,7 @@ class Player
       piece = gets.chomp.upcase
     end
     return piece if piece == 'SAVE'
+
     piece = convert_input(piece)
   end
 
@@ -26,6 +27,7 @@ class Player
       move = gets.chomp.upcase
     end
     return move if move == 'SAVE'
+
     move = convert_input(move)
   end
 

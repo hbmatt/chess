@@ -27,8 +27,6 @@ class Game
     end
     clear_screen
 
-    
-
     loop do
       player = choose_player_turn
       enemy = assign_enemy
@@ -55,35 +53,36 @@ class Game
     puts "\nLoad saved game? [Y/N]"
     answer = gets.chomp.upcase
 
-    until answer == "Y" || answer == "N"
+    until answer == 'Y' || answer == 'N'
       puts "\nYou can't do that! Load game? [Y/N]"
       answer = gets.chomp.upcase
     end
 
-    if answer == "Y"
-      load_game()
+    if answer == 'Y'
+      load_game
     else
       puts "\n\nStarting new game!\n\nTo save your game, type 'save' at any time."
       false
-    end 
+    end
   end
 
-  def load_game()
-    load = load_file()
+  def load_game
+    load = load_file
     return false if load == false
+
     @board = load['board']
     @player1 = load['player1']
     @player2 = load['player2']
     @move_counter = load['move_counter']
-    
+
     puts "\n\nYour game has been loaded.\n\nTo save your game, type 'save' at any time."
   end
 
   def end_game(player, enemy)
     winner = find_winner(player, enemy)
-    
+
     if winner == 'draw'
-      puts "Stalemate! The game is a draw."
+      puts 'Stalemate! The game is a draw.'
     else
       puts "Game over! #{winner.name} wins!"
     end
@@ -106,7 +105,7 @@ class Game
     answer = gets.chomp.upcase
 
     unless answer == 'Y' || answer == 'N'
-      puts "Please enter Y or N:"
+      puts 'Please enter Y or N:'
       answer = gets.chomp.upcase
     end
 
@@ -128,6 +127,7 @@ class Game
 
   def stalemate?(player)
     return true if !in_check?(player) && no_moves?(player)
+
     false
   end
 
