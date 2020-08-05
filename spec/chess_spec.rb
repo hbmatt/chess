@@ -66,20 +66,27 @@ describe Game do
 
   game2 = Game.new
   board2 = game2.board
-  player = game2.player1
+  player2 = game2.player1
+  enemy2 = game2.player2
 
   describe '#in_check?' do
     it "returns true when player's king in check" do
-      player.king_piece = board2.grid[0][7] = King.new('white', [0, 7])
+      player2.king_piece = board2.grid[0][7] = King.new('white', [0, 7])
       board2.grid[0][4] = Rook.new('black', [0, 4])
-      expect(game2.in_check?(player)).to eq(true)
+      expect(game2.in_check?(player2)).to eq(true)
     end
   end
 
   describe '#checkmate?' do
     it "returns true when player's king is in check and has no moves" do
       board2.grid[2][7] = King.new('black', [2, 7])
-      expect(game2.checkmate?(player)).to eq(true)
+      expect(game2.checkmate?(player2)).to eq(true)
+    end
+  end
+
+  describe '#end_game' do
+    it 'prints correct winner' do
+      expect{game2.end_game(player2,enemy2)}.to output("Game over! Player 2 wins!\n").to_stdout
     end
   end
 end
