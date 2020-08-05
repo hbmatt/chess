@@ -11,19 +11,21 @@ class Player
 
   def choose_piece
     piece = ''
-    until /^[A-H][1-8]$/.match?(piece)
+    until piece == 'SAVE' || /^[A-H][1-8]$/.match?(piece)
       puts "#{@name}, select your piece:"
       piece = gets.chomp.upcase
     end
+    return piece if piece == 'SAVE'
     piece = convert_input(piece)
   end
 
   def move_piece
     move = ''
-    until /^[A-H][1-8]$/.match?(move)
+    until move == 'SAVE' || /^[A-H][1-8]$/.match?(move)
       puts 'Move your piece:'
       move = gets.chomp.upcase
     end
+    return move if move == 'SAVE'
     move = convert_input(move)
   end
 

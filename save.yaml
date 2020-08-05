@@ -1,0 +1,240 @@
+---
+board: !ruby/object:Board
+  rows: 8
+  columns: 8
+  grid:
+  - - !ruby/object:Rook
+      color: white
+      position:
+      - 0
+      - 0
+      moved: false
+    - !ruby/object:Knight
+      color: white
+      position:
+      - 0
+      - 1
+      moved: false
+    - !ruby/object:Bishop
+      color: white
+      position:
+      - 0
+      - 2
+      moved: false
+    - !ruby/object:Queen
+      color: white
+      position:
+      - 0
+      - 3
+      moved: false
+    - &1 !ruby/object:King
+      color: white
+      position:
+      - 0
+      - 4
+      moved: false
+    - !ruby/object:Bishop
+      color: white
+      position:
+      - 0
+      - 5
+      moved: false
+    - !ruby/object:Knight
+      color: white
+      position:
+      - 0
+      - 6
+      moved: false
+    - !ruby/object:Rook
+      color: white
+      position:
+      - 0
+      - 7
+      moved: false
+  - - !ruby/object:Pawn
+      color: white
+      position:
+      - 1
+      - 0
+      moved: false
+    - !ruby/object:Pawn
+      color: white
+      position:
+      - 1
+      - 1
+      moved: false
+    - !ruby/object:Pawn
+      color: white
+      position:
+      - 1
+      - 2
+      moved: false
+    - " "
+    - !ruby/object:Pawn
+      color: white
+      position:
+      - 1
+      - 4
+      moved: false
+    - !ruby/object:Pawn
+      color: white
+      position:
+      - 1
+      - 5
+      moved: false
+    - !ruby/object:Pawn
+      color: white
+      position:
+      - 1
+      - 6
+      moved: false
+    - !ruby/object:Pawn
+      color: white
+      position:
+      - 1
+      - 7
+      moved: false
+  - - " "
+    - " "
+    - " "
+    - " "
+    - " "
+    - " "
+    - " "
+    - " "
+  - - " "
+    - " "
+    - " "
+    - !ruby/object:Pawn
+      color: white
+      position:
+      - 3
+      - 3
+      moved: true
+    - " "
+    - " "
+    - " "
+    - " "
+  - - " "
+    - " "
+    - " "
+    - !ruby/object:Pawn
+      color: black
+      position:
+      - 4
+      - 3
+      moved: true
+    - " "
+    - " "
+    - " "
+    - " "
+  - - " "
+    - " "
+    - " "
+    - " "
+    - " "
+    - " "
+    - " "
+    - " "
+  - - !ruby/object:Pawn
+      color: black
+      position:
+      - 6
+      - 0
+      moved: false
+    - !ruby/object:Pawn
+      color: black
+      position:
+      - 6
+      - 1
+      moved: false
+    - !ruby/object:Pawn
+      color: black
+      position:
+      - 6
+      - 2
+      moved: false
+    - " "
+    - !ruby/object:Pawn
+      color: black
+      position:
+      - 6
+      - 4
+      moved: false
+    - !ruby/object:Pawn
+      color: black
+      position:
+      - 6
+      - 5
+      moved: false
+    - !ruby/object:Pawn
+      color: black
+      position:
+      - 6
+      - 6
+      moved: false
+    - !ruby/object:Pawn
+      color: black
+      position:
+      - 6
+      - 7
+      moved: false
+  - - !ruby/object:Rook
+      color: black
+      position:
+      - 7
+      - 0
+      moved: false
+    - !ruby/object:Knight
+      color: black
+      position:
+      - 7
+      - 1
+      moved: false
+    - !ruby/object:Bishop
+      color: black
+      position:
+      - 7
+      - 2
+      moved: false
+    - !ruby/object:Queen
+      color: black
+      position:
+      - 7
+      - 3
+      moved: false
+    - &2 !ruby/object:King
+      color: black
+      position:
+      - 7
+      - 4
+      moved: false
+    - !ruby/object:Bishop
+      color: black
+      position:
+      - 7
+      - 5
+      moved: false
+    - !ruby/object:Knight
+      color: black
+      position:
+      - 7
+      - 6
+      moved: false
+    - !ruby/object:Rook
+      color: black
+      position:
+      - 7
+      - 7
+      moved: false
+player1: !ruby/object:Player
+  name: Cheese
+  color: white
+  graveyard: []
+  king_piece: *1
+player2: !ruby/object:Player
+  name: Pizza
+  color: black
+  graveyard: []
+  king_piece: *2
+move_counter: 5

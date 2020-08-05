@@ -2,8 +2,11 @@ require './lib/board.rb'
 require './lib/game.rb'
 require './lib/player.rb'
 require './lib/pieces.rb'
+require_relative 'saveload.rb'
+require 'yaml'
 
 class Game
+  include SaveLoad
   attr_accessor :board, :player1, :player2
 
   def initialize
@@ -14,11 +17,17 @@ class Game
   end
 
   def start_game
-    get_players
+    puts "\n+------------------------------------------------+
+    \rLet's Play Chess!"
+    old_game = ask_load
+    if old_game == false
+      get_players
+      place_white_pieces(@board.grid)
+      place_black_pieces(@board.grid)
+    end
     clear_screen
 
-    place_white_pieces(@board.grid)
-    place_black_pieces(@board.grid)
+    
 
     loop do
       player = choose_player_turn
@@ -40,6 +49,34 @@ class Game
     end
 
     end_game(player, enemy)
+  end
+
+  def ask_load
+    puts "\nLoad saved game? [Y/N]"
+    answer = gets.chomp.upcase
+
+    until answer == "Y" || answer == "N"
+      puts "\nYou can't do that! Load game? [Y/N]"
+      answer = gets.chomp.upcase
+    end
+
+    if answer == "Y"
+      load_game()
+    else
+      puts "\n\nStarting new game!\n\nTo save your game, type 'save' at any time."
+      false
+    end 
+  end
+
+  def load_game()
+    load = load_file()
+    return false if load == false
+    @board = load['board']
+    @player1 = load['player1']
+    @player2 = load['player2']
+    @move_counter = load['move_counter']
+    
+    puts "\n\nYour game has been loaded.\n\nTo save your game, type 'save' at any time."
   end
 
   def end_game(player, enemy)
@@ -213,13 +250,21 @@ class Game
 
     while legal_moves == []
       piece = player.choose_piece
-      piece = player.choose_piece until piece_legal?(player, piece)
-      piece = find_piece(piece)
-      legal_moves = piece.find_legal_moves(@board.grid)
+      if piece == 'SAVE'
+        save_game(@board, @player1, @player2, @move_counter)
+      else
+        piece = player.choose_piece until piece_legal?(player, piece)
+        piece = find_piece(piece)
+        legal_moves = piece.find_legal_moves(@board.grid)
+      end
     end
 
     move = player.move_piece
-    move = player.move_piece until move_legal?(move, legal_moves)
+    if move == 'SAVE'
+      save_game(@board, @player1, @player2, @move_counter)
+    else
+      move = player.move_piece until move_legal?(move, legal_moves)
+    end
 
     piece = move_piece(piece, move, @board.grid, player)
     promote_pawn(piece)
@@ -305,3 +350,5 @@ class Game
     end
   end
 end
+
+Game.new.start_game
