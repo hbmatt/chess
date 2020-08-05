@@ -2,6 +2,7 @@ require './lib/board.rb'
 require './lib/game.rb'
 require './lib/player.rb'
 require './lib/pieces.rb'
+require './lib/rules.rb'
 
 describe Board do
   describe '#make_board' do
@@ -56,7 +57,7 @@ describe Game do
       pawn.position = [7, 7]
       allow(game).to receive(:gets) { '1' }
 
-      expect(game.promote_pawn(pawn).class).to eq(Queen)
+      expect(game.promote_pawn(pawn, board.grid, board).class).to eq(Queen)
     end
 
     it 'replaces pawn with the chosen piece' do
@@ -73,14 +74,14 @@ describe Game do
     it "returns true when player's king in check" do
       player2.king_piece = board2.grid[0][7] = King.new('white', [0, 7])
       board2.grid[0][4] = Rook.new('black', [0, 4])
-      expect(game2.in_check?(player2)).to eq(true)
+      expect(game2.in_check?(player2, board2.grid)).to eq(true)
     end
   end
 
   describe '#checkmate?' do
     it "returns true when player's king is in check and has no moves" do
       board2.grid[2][7] = King.new('black', [2, 7])
-      expect(game2.checkmate?(player2)).to eq(true)
+      expect(game2.checkmate?(player2, board2.grid)).to eq(true)
     end
   end
 
@@ -96,7 +97,7 @@ describe Game do
       rook2.position = [2, 6]
       board2.grid[2][6] = rook2
       board2.grid[0][4] = ' '
-      expect(game2.stalemate?(player2)).to eq(true)
+      expect(game2.stalemate?(player2, board2.grid)).to eq(true)
     end
   end
 
@@ -111,25 +112,25 @@ describe Game do
 
   describe '#find_pawn' do
     it "returns the columns of enemy pawns" do
-      expect(game3.find_pawn(player_piece)).to eq([4])
+      expect(game3.find_pawn(player_piece,board3.grid)).to eq([4])
     end
   end
 
   describe '#en_passant' do
     it "returns the possible en passant moves" do
-      expect(game3.en_passant(player_piece, player3)).to eq([[5, 4]])
+      expect(game3.en_passant(player_piece, player3, board3.grid)).to eq([[5, 4]])
     end
   end
 
   describe '#en_passant_possible?' do
     it "returns true when en passant is possible" do
-      expect(game3.en_passant_possible?(player_piece)).to eq(true)
+      expect(game3.en_passant_possible?(player_piece, board3.grid)).to eq(true)
     end
   end
 
   describe '#take_pawn' do
     it "puts enemy pawn in graveyard in case of en passant" do
-      expect(game3.take_pawn([5,4], player3, player_piece)).to eq(player3.graveyard)
+      expect(game3.take_pawn([5,4], player3, player_piece, board3.grid)).to eq(player3.graveyard)
     end
   end
 
