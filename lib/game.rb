@@ -7,7 +7,7 @@ require 'yaml'
 
 class Game
   include SaveLoad
-  attr_accessor :board, :player1, :player2
+  attr_accessor :board, :player1, :player2, :move_counter
 
   def initialize
     @player1 = Player.new('Player 1', 'white')
@@ -302,6 +302,12 @@ class Game
         piece = find_piece(piece)
         legal_moves = piece.find_legal_moves(@board.grid)
         legal_moves << castle(piece, player) if can_castle?(piece)
+        if en_passant_possible?(piece)
+          moves = en_passant(piece, player)
+          moves.each do |move|
+            legal_moves << move
+          end
+        end
       end
     end
 
@@ -369,8 +375,10 @@ class Game
 
   def move_piece(piece, move, grid, player)
     piece.moved = true if piece.moved == false
+    piece.move_count = @move_counter if piece.class == Pawn && (move[0] - piece.position[0] == 2 || move[0] - piece.position[0] == -2)
 
     move_rook(move, player, piece) if piece.class == King
+    take_pawn(move, player, piece) if piece.class == Pawn
 
     old_position = piece.position
     row = old_position[0]
@@ -463,5 +471,51 @@ class Game
         @board.grid[row][column] = Knight.new(color, position)
       end
     end
+  end
+
+  def en_passant_possible?(player_piece)
+    return false if player_piece.class != Pawn
+    return true if find_pawn(player_piece) != []
+
+    false
+  end
+
+  def take_pawn(move, player, piece)
+    columns = find_pawn(piece)
+
+    columns.each do |i|
+      take_piece(4, i, player) if move[1] == i && player.color == 'white'
+      take_piece(3, i, player) if move[1] == i && player.color == 'black'
+    end
+
+    player.graveyard
+  end
+
+  def en_passant(piece, player)
+    columns = find_pawn(piece)
+    moves = []
+
+    columns.each do |i|
+      moves << [5, i] if player.color == 'white'
+      moves << [2, i] if player.color == 'black'
+    end
+
+    moves
+  end
+
+  def find_pawn(player_piece)
+    n = 4 if player_piece.color == 'white'
+    n = 3 if player_piece.color == 'black'
+
+    i = 0
+    pawn_column = []
+
+    until i > 7
+      piece = @board.grid[n][i]
+      pawn_column << i if piece.class == Pawn && piece.color != player_piece.color && piece.move_count + 1 == @move_counter
+      i += 1
+    end
+
+    pawn_column
   end
 end

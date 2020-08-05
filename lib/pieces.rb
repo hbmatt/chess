@@ -189,6 +189,13 @@ class Knight < Piece
 end
 
 class Pawn < Piece
+  attr_accessor :move_count
+
+  def initialize(color, position)
+    super(color, position)
+    @move_count = ''
+  end
+
   def get_moves
     moves = @color == 'white' ? [[2, 0], [1, 0], [1, 1], [1, -1]] : [[-2, 0], [-1, 0], [-1, 1], [-1, -1]]
     @moved == true ? moves.shift : moves
