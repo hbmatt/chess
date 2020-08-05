@@ -4,7 +4,7 @@ require './lib/player.rb'
 require './lib/pieces.rb'
 
 class Game
-  attr_accessor :board
+  attr_accessor :board, :player1, :player2
 
   def initialize
     @player1 = Player.new('Player 1', 'white')
@@ -16,16 +16,15 @@ class Game
   def start_game
     get_players
     clear_screen
-    player = @player1
-    enemy = @player2
 
     place_white_pieces(@board.grid)
     place_black_pieces(@board.grid)
 
-    loop do 
-      player = @move_counter.odd? ? @player1 : @player2
-      enemy = @move_counter.odd? ? @player2 : @player1
+    loop do
+      player = choose_player_turn
+      enemy = assign_enemy
       break if game_over?(player, enemy)
+
       @board.display_board
       if in_check?(player) && !king_no_moves?(player)
         while in_check?(player)
@@ -40,7 +39,39 @@ class Game
       @move_counter += 1
     end
 
-    exit
+    end_game(player, enemy)
+  end
+
+  def end_game(player, enemy)
+    winner = find_winner(player, enemy)
+    puts "Game over! #{winner.name} wins!"
+
+    restart_game
+  end
+
+  def find_winner(player, enemy)
+    if checkmate?(player)
+      enemy
+    elsif player.graveyard.include?(enemy.king_piece)
+      player
+    end
+  end
+
+  def restart_game
+    puts "\nPlay again? [Y/N]"
+    answer = gets.chomp.upcase
+
+    unless answer == 'Y' || answer == 'N'
+      puts "Please enter Y or N:"
+      answer = gets.chomp.upcase
+    end
+
+    if answer == 'Y'
+      Game.new.start_game
+    else
+      puts "\nGoodbye!"
+      exit
+    end
   end
 
   def game_over?(player, enemy)
