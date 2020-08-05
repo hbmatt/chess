@@ -107,24 +107,24 @@ module Rules
     return false if open_spaces == []
 
     enemy_pieces = find_enemy_pieces(player, grid)
-  
+
     enemy_pieces.each do |piece|
       moves = piece.find_legal_moves(grid)
       return false if open_spaces.any? { |space| moves.include?(space) }
     end
-  
+
     true
   end
 
   def open_spaces(position, grid)
     if position == [0, 7] && grid[0][6] == ' ' && grid[0][5] == ' '
-      [[0,6],[0,5]]
+      [[0, 6], [0, 5]]
     elsif position == [0, 0] && grid[0][1] == ' ' && grid[0][2] == ' ' && board.grid[0][3]
-      [[0,1],[0,2],[0,3]]
+      [[0, 1], [0, 2], [0, 3]]
     elsif position == [7, 7] && grid[7][6] == ' ' && grid[7][5] == ' '
-      [[7,6],[7,5]]
+      [[7, 6], [7, 5]]
     elsif position == [7, 0] && grid[7][1] == ' ' && grid[7][2] == ' ' && board.grid[7][3]
-      [[7,1],[7,2],[7,3]]
+      [[7, 1], [7, 2], [7, 3]]
     else
       []
     end
@@ -147,17 +147,17 @@ module Rules
   end
 
   def move_rook(move, player, piece, grid)
-    if move == [0,6]
-      move_piece(grid[0][7], [0,5],grid, player)
+    if move == [0, 6]
+      move_piece(grid[0][7], [0, 5], grid, player)
       piece.castled = true
-    elsif move == [0,2]
-      move_piece(grid[0][0], [0,3],grid, player)
+    elsif move == [0, 2]
+      move_piece(grid[0][0], [0, 3], grid, player)
       piece.castled = true
-    elsif move == [7,6]
-      move_piece(grid[7][7], [7,5],grid, player)
+    elsif move == [7, 6]
+      move_piece(grid[7][7], [7, 5], grid, player)
       piece.castled = true
-    elsif move == [7,2]
-      move_piece(grid[7][0], [7,3],grid, player)
+    elsif move == [7, 2]
+      move_piece(grid[7][0], [7, 3], grid, player)
       piece.castled = true
     end
   end
@@ -201,7 +201,9 @@ module Rules
 
     until i > 7
       piece = grid[n][i]
-      pawn_column << i if piece.class == Pawn && piece.color != player_piece.color && piece.move_count + 1 == @move_counter
+      if piece.class == Pawn && piece.color != player_piece.color && piece.move_count + 1 == @move_counter
+        pawn_column << i
+      end
       i += 1
     end
 

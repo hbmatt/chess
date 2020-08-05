@@ -225,7 +225,9 @@ class Game
 
   def move_piece(piece, move, grid, player)
     piece.moved = true if piece.moved == false
-    piece.move_count = @move_counter if piece.class == Pawn && (move[0] - piece.position[0] == 2 || move[0] - piece.position[0] == -2)
+    if piece.class == Pawn && (move[0] - piece.position[0] == 2 || move[0] - piece.position[0] == -2)
+      piece.move_count = @move_counter
+    end
 
     move_rook(move, player, piece, @board.grid) if piece.class == King
     take_pawn(move, player, piece, @board.grid) if piece.class == Pawn

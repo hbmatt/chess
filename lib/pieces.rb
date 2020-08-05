@@ -47,7 +47,7 @@ class King < Piece
     super(color, position)
     @castled = false
   end
-  
+
   def get_moves
     moves = [
       [0, 1], [1, 1], [1, 0], [1, -1],
