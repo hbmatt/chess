@@ -12,6 +12,23 @@ describe Board do
   end
 end
 
+describe Piece do
+  describe Rook do
+    describe '#find_legal_moves' do
+      it 'stops loop after blocking team piece discovered' do
+        game = Game.new
+        board = game.board
+        player = Player.new('Cheese','white')
+        game.place_white_pieces(board.grid)
+        piece = board.grid[1][7]
+        game.move_piece(piece,[3,7],board.grid,player)
+        piece = board.grid[0][7]
+        expect(piece.find_legal_moves(board.grid)).to eq([[1,7],[2,7]])
+      end
+    end
+  end
+end
+
 describe Game do
   game = Game.new
   board = game.board
@@ -40,6 +57,10 @@ describe Game do
       allow(game).to receive(:gets) { '1' }
       
       expect(game.promote_pawn(pawn).class).to eq(Queen)
+    end
+
+    it 'replaces pawn with the chosen piece' do
+      expect{puts board.grid[7][7]}.to output(puts "\u2655").to_stdout
     end
   end
 end

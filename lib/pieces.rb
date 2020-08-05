@@ -14,21 +14,29 @@ class Piece
 
     moves.each do |move|
       row = @position[0] + move[0]
-      column = @position[1] + move [1]
-      legal_moves << [row, column] if on_board?(row, column) && open_square?(row, column, grid)
+      column = @position[1] + move[1]
+      if on_board?(row, column) && open_square?(row, column, grid) || on_board?(row, column) && enemy_square?(row, column, grid)
+        legal_moves << [row, column]
+      else
+        next
+      end
     end
 
     legal_moves
   end
 
-  def on_board?(row, column)
-    row >= 0 && column >= 0 && row <= 7 && column <= 7 ? true : false
+  def enemy_square?(row, column, grid)
+    return false if grid[row][column] == ' '
+
+    grid[row][column].color != @color
   end
 
   def open_square?(row, column, grid)
-    return true if grid[row][column] == ' '
+    grid[row][column] == ' '
+  end
 
-    grid[row][column].color != @color
+  def on_board?(row, column)
+    row.between?(0, 7) && column.between?(0, 7)
   end
 end
 
@@ -51,21 +59,32 @@ class Queen < Piece
       [1, 0], [-1, 0], [0, 1], [0, -1],
       [1, 1], [-1, 1], [-1, -1], [1, -1]
     ]
+  end
 
-    full_moves = []
+  def find_legal_moves(grid)
+    moves = get_moves
+    legal_moves = []
 
     moves.each do |move|
       i = 1
+
       until i > 7
-        row = move[0] * i
-        column = move[1] * i
-        full_moves << [row, column]
-        i += 1
+        row = @position[0] + move[0] * i
+        column = @position[1] + move[1] * i
+
+        if on_board?(row, column) && open_square?(row, column, grid)
+          legal_moves << [row, column]
+          i += 1
+        elsif on_board?(row, column) && enemy_square?(row, column, grid)
+          legal_moves << [row, column]
+          i = 8
+        else
+          i = 8
+        end
       end
-      full_moves
     end
 
-    full_moves
+    legal_moves
   end
 
   def to_s
@@ -78,21 +97,32 @@ class Rook < Piece
     moves = [
       [1, 0], [-1, 0], [0, 1], [0, -1]
     ]
+  end
 
-    full_moves = []
+  def find_legal_moves(grid)
+    moves = get_moves
+    legal_moves = []
 
     moves.each do |move|
       i = 1
+
       until i > 7
-        row = move[0] * i
-        column = move[1] * i
-        full_moves << [row, column]
-        i += 1
+        row = @position[0] + move[0] * i
+        column = @position[1] + move[1] * i
+
+        if on_board?(row, column) && open_square?(row, column, grid)
+          legal_moves << [row, column]
+          i += 1
+        elsif on_board?(row, column) && enemy_square?(row, column, grid)
+          legal_moves << [row, column]
+          i = 8
+        else
+          i = 8
+        end
       end
-      full_moves
     end
 
-    full_moves
+    legal_moves
   end
 
   def to_s
@@ -105,21 +135,32 @@ class Bishop < Piece
     moves = [
       [1, 1], [-1, 1], [-1, -1], [1, -1]
     ]
+  end
 
-    full_moves = []
+  def find_legal_moves(grid)
+    moves = get_moves
+    legal_moves = []
 
     moves.each do |move|
       i = 1
+
       until i > 7
-        row = move[0] * i
-        column = move[1] * i
-        full_moves << [row, column]
-        i += 1
+        row = @position[0] + move[0] * i
+        column = @position[1] + move[1] * i
+
+        if on_board?(row, column) && open_square?(row, column, grid)
+          legal_moves << [row, column]
+          i += 1
+        elsif on_board?(row, column) && enemy_square?(row, column, grid)
+          legal_moves << [row, column]
+          i = 8
+        else
+          i = 8
+        end
       end
-      full_moves
     end
 
-    full_moves
+    legal_moves
   end
 
   def to_s
@@ -147,21 +188,19 @@ class Pawn < Piece
     moves
   end
 
-  def enemy_square?(row, column, grid)
-    return false if grid[row][column] == ' '
-
-    grid[row][column].color != @color
-  end
-
   def find_legal_moves(grid)
     moves = get_moves
     legal_moves = []
 
     moves.each do |move|
       row = @position[0] + move[0]
-      column = @position[1] + move [1]
-      if on_board?(row, column) && enemy_square?(row, column, grid) || on_board?(row, column) && open_square?(row, column, grid)
-        legal_moves << [row, column]
+      column = @position[1] + move[1]
+      if move[1] == 1 || move[1] == -1
+        legal_moves << [row, column] if on_board?(row, column) && enemy_square?(row, column, grid)
+      else
+        if on_board?(row, column) && open_square?(row, column, grid) || on_board?(row, column) && enemy_square?(row, column, grid)
+          legal_moves << [row, column]
+        end
       end
     end
 

@@ -1,16 +1,17 @@
 class Player
-  attr_accessor :name, :graveyard
+  attr_accessor :name, :graveyard, :king_piece
   attr_reader :color
 
   def initialize(name, color)
     @name = name
     @color = color
     @graveyard = []
+    @king_piece = ''
   end
 
   def choose_piece
     piece = ''
-    until /^[A-H][1-7]$/.match?(piece)
+    until /^[A-H][1-8]$/.match?(piece)
       puts "#{@name}, select your piece:"
       piece = gets.chomp.upcase
     end
@@ -19,7 +20,7 @@ class Player
 
   def move_piece
     move = ''
-    until /^[A-H][1-7]$/.match?(move)
+    until /^[A-H][1-8]$/.match?(move)
       puts 'Move your piece:'
       move = gets.chomp.upcase
     end
