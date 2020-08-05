@@ -301,6 +301,7 @@ class Game
         piece = player.choose_piece until piece_legal?(player, piece)
         piece = find_piece(piece)
         legal_moves = piece.find_legal_moves(@board.grid)
+        legal_moves << castle(piece, player) if can_castle?(piece)
       end
     end
 
@@ -315,8 +316,61 @@ class Game
     promote_pawn(piece)
   end
 
+  def can_castle?(piece)
+    return true if piece.class == King && piece.moved == false
+
+    false
+  end
+
+  def spaces_not_in_check?(position, player)
+    open_spaces = open_spaces(position)
+
+    return false if open_spaces == []
+
+    enemy_pieces = find_enemy_pieces(player)
+  
+    enemy_pieces.each do |piece|
+      moves = piece.find_legal_moves(@board.grid)
+      return false if open_spaces.any? { |space| moves.include?(space) }
+    end
+  
+    true
+  end
+
+  def open_spaces(position)
+    if position == [0, 7] && @board.grid[0][6] == ' ' && @board.grid[0][5] == ' '
+      [[0,6],[0,5]]
+    elsif position == [0, 0] && @board.grid[0][1] == ' ' && @board.grid[0][2] == ' ' && board.grid[0][3]
+      [[0,1],[0,2],[0,3]]
+    elsif position == [7, 7] && @board.grid[7][6] == ' ' && @board.grid[7][5] == ' '
+      [[7,6],[7,5]]
+    elsif position == [7, 0] && @board.grid[7][1] == ' ' && @board.grid[7][2] == ' ' && board.grid[7][3]
+      [[7,1],[7,2],[7,3]]
+    else
+      []
+    end
+  end
+
+  def castle(piece, player)
+    if piece.color == 'white'
+      if @board.grid[0][7].moved == false && spaces_not_in_check?([0, 7], player)
+        [0, 6]
+      elsif @board.grid[0][0].moved == false && spaces_not_in_check?([0, 0], player)
+        [0, 2]
+      end
+    elsif piece.color == 'black'
+      if @board.grid[7][7].moved == false && spaces_not_in_check?([7, 7], player)
+        [7, 6]
+      elsif @board.grid[7][0].moved == false && spaces_not_in_check?([7, 0], player)
+        [7, 2]
+      end
+    end
+  end
+
   def move_piece(piece, move, grid, player)
     piece.moved = true if piece.moved == false
+
+    move_rook(move, player, piece) if piece.class == King
 
     old_position = piece.position
     row = old_position[0]
@@ -332,6 +386,22 @@ class Game
       grid[row][column] = piece
     else
       grid[row][column] = piece
+    end
+  end
+
+  def move_rook(move, player, piece)
+    if move == [0,6]
+      move_piece(@board.grid[0][7], [0,5],@board.grid, player)
+      piece.castled = true
+    elsif move == [0,2]
+      move_piece(@board.grid[0][0], [0,3],@board.grid, player)
+      piece.castled = true
+    elsif move == [7,6]
+      move_piece(@board.grid[7][7], [7,5],@board.grid, player)
+      piece.castled = true
+    elsif move == [7,2]
+      move_piece(@board.grid[7][0], [7,3],@board.grid, player)
+      piece.castled = true
     end
   end
 

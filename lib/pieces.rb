@@ -41,6 +41,13 @@ class Piece
 end
 
 class King < Piece
+  attr_accessor :castled
+
+  def initialize(color, position)
+    super(color, position)
+    @castled = false
+  end
+  
   def get_moves
     moves = [
       [0, 1], [1, 1], [1, 0], [1, -1],
