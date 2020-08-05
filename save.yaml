@@ -66,13 +66,7 @@ board: !ruby/object:Board
       - 1
       moved: false
       move_count: ''
-    - !ruby/object:Pawn
-      color: white
-      position:
-      - 1
-      - 2
-      moved: false
-      move_count: ''
+    - " "
     - !ruby/object:Pawn
       color: white
       position:
@@ -104,46 +98,46 @@ board: !ruby/object:Board
       move_count: ''
   - - " "
     - " "
-    - " "
-    - " "
-    - " "
-    - " "
-    - " "
-    - " "
-  - - " "
-    - " "
-    - " "
-    - " "
-    - !ruby/object:Pawn
-      color: white
-      position:
-      - 3
-      - 4
-      moved: true
-      move_count: 1
-    - " "
-    - " "
-    - " "
-  - - " "
-    - " "
-    - " "
     - !ruby/object:Pawn
       color: black
       position:
-      - 4
-      - 3
+      - 2
+      - 2
       moved: true
       move_count: 2
     - " "
     - " "
     - " "
     - " "
+    - " "
   - - " "
     - " "
     - " "
     - " "
     - " "
     - " "
+    - " "
+    - " "
+  - - " "
+    - " "
+    - " "
+    - " "
+    - " "
+    - " "
+    - " "
+    - " "
+  - - " "
+    - " "
+    - " "
+    - " "
+    - " "
+    - !ruby/object:Pawn
+      color: black
+      position:
+      - 5
+      - 5
+      moved: true
+      move_count: ''
     - " "
     - " "
   - - !ruby/object:Pawn
@@ -168,20 +162,14 @@ board: !ruby/object:Board
       moved: false
       move_count: ''
     - " "
-    - !ruby/object:Pawn
+    - &2 !ruby/object:King
       color: black
       position:
       - 6
       - 4
-      moved: false
-      move_count: ''
-    - !ruby/object:Pawn
-      color: black
-      position:
-      - 6
-      - 5
-      moved: false
-      move_count: ''
+      moved: true
+      castled: false
+    - " "
     - !ruby/object:Pawn
       color: black
       position:
@@ -220,13 +208,7 @@ board: !ruby/object:Board
       - 7
       - 3
       moved: false
-    - &2 !ruby/object:King
-      color: black
-      position:
-      - 7
-      - 4
-      moved: false
-      castled: false
+    - " "
     - !ruby/object:Bishop
       color: black
       position:
@@ -248,11 +230,26 @@ board: !ruby/object:Board
 player1: !ruby/object:Player
   name: Cheese
   color: white
-  graveyard: []
+  graveyard:
+  - !ruby/object:Pawn
+    color: black
+    position: 
+    moved: false
+    move_count: ''
   king_piece: *1
 player2: !ruby/object:Player
   name: Pizza
   color: black
-  graveyard: []
+  graveyard:
+  - !ruby/object:Pawn
+    color: white
+    position: 
+    moved: true
+    move_count: 7
+  - !ruby/object:Pawn
+    color: white
+    position: 
+    moved: true
+    move_count: 1
   king_piece: *2
-move_counter: 3
+move_counter: 11
