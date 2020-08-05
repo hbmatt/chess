@@ -84,9 +84,19 @@ describe Game do
     end
   end
 
-  describe '#end_game' do
-    it 'prints correct winner' do
-      expect{game2.end_game(player2,enemy2)}.to output("Game over! Player 2 wins!\n").to_stdout
+  # describe '#end_game' do
+  #   it 'prints correct winner' do
+  #     expect{game2.end_game(player2,enemy2)}.to output("Game over! Player 2 wins!\n").to_stdout
+  #   end
+  # end
+
+  describe '#stalemate?' do
+    it 'returns true when player not in check and has no moves' do
+      rook2 = board2.grid[0][4]
+      rook2.position = [2, 6]
+      board2.grid[2][6] = rook2
+      board2.grid[0][4] = ' '
+      expect(game2.stalemate?(player2)).to eq(true)
     end
   end
 end

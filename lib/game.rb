@@ -81,7 +81,12 @@ class Game
 
   def end_game(player, enemy)
     winner = find_winner(player, enemy)
-    puts "Game over! #{winner.name} wins!"
+    
+    if winner == 'draw'
+      puts "Stalemate! The game is a draw."
+    else
+      puts "Game over! #{winner.name} wins!"
+    end
 
     restart_game
   end
@@ -89,6 +94,8 @@ class Game
   def find_winner(player, enemy)
     if checkmate?(player)
       enemy
+    elsif stalemate?(player)
+      'draw'
     elsif player.graveyard.include?(enemy.king_piece)
       player
     end
@@ -113,9 +120,35 @@ class Game
 
   def game_over?(player, enemy)
     return true if checkmate?(player)
+    return true if stalemate?(player)
     return true if player.graveyard.include?(enemy.king_piece)
 
     false
+  end
+
+  def stalemate?(player)
+    return true if !in_check?(player) && no_moves?(player)
+    false
+  end
+
+  def no_moves?(player)
+    player_pieces = find_player_pieces(player)
+    moves = []
+    player_pieces.each do |piece|
+      moves << piece.find_legal_moves(@board.grid)
+    end
+    moves = moves.flatten(1)
+
+    enemy_pieces = find_enemy_pieces(player)
+    enemy_moves = []
+    enemy_pieces.each do |piece|
+      enemy_moves << piece.find_legal_moves(@board.grid)
+    end
+    enemy_moves = enemy_moves.flatten(1)
+
+    moves.all? do |move|
+      enemy_moves.include?(move)
+    end
   end
 
   def in_check?(player)
@@ -158,6 +191,18 @@ class Game
     end
 
     pieces
+  end
+
+  def find_player_pieces(player)
+    all_pieces = find_all_pieces(@board.grid)
+
+    player_pieces = []
+
+    all_pieces.each do |piece|
+      player_pieces << piece if piece.color == player.color
+    end
+
+    player_pieces
   end
 
   def find_enemy_pieces(player)
@@ -350,5 +395,3 @@ class Game
     end
   end
 end
-
-Game.new.start_game
